@@ -1,5 +1,5 @@
 
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -8,10 +8,13 @@ using System.Text; // 인코딩을 사용하기 위해 추가
 
 public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampleData>
 {
+    public static UIRecycleViewControllerSample instance;
+
     private string csvFilePath = "Assets/Resources/Subject.csv";
 
-    private void LoadData()
+    public void LoadData()
     {
+        
         tableData = new List<UICellSampleData>();
 
         // UTF-8로 인코딩된 파일을 읽기 위해 Encoding 설정
@@ -33,7 +36,6 @@ public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampl
                 string[] values = line.Split(',');
                 if (values.Length > 7)
                 {
-
                     UICellSampleData data = new UICellSampleData
                     {
                         Number = int.Parse(values[0]),
@@ -47,68 +49,52 @@ public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampl
                         Star = float.Parse(values[8]),
                         Professor = values[9]
                     };
-                    tableData.Add(data);
+                    
+                    
+                    if (ArrangeClassButton.instance.SortByMajor == "ALL" || ArrangeClassButton.instance.SortByMajor == data.ClassMGE)
+                    {
+                        
+                        if (ArrangeClassButton.instance.SortByCredit == 1 || ArrangeClassButton.instance.SortByCredit == data.Credit)
+                        {
+                        
+                            tableData.Add(data);
+
+                        }
+                    }
+                        
                 }
             }
         }
+        if (ArrangeClassButton.instance.SortByMiddle == "STAR")
+        {
+            tableData.Sort(CompareByStar);
+        }
+        else if (ArrangeClassButton.instance.SortByMiddle == "NAME") {
+            tableData.Sort((data1, data2) => string.Compare(data1.ClassName_KR, data2.ClassName_KR, StringComparison.Ordinal));
+        }
+        else if (ArrangeClassButton.instance.SortByMiddle == "POPULARITY")
+        {
+            tableData.Sort(CompareByPopularity);
+        }
+        
 
         InitializeTableView();
     }
-
+    private int CompareByPopularity(UICellSampleData x, UICellSampleData y)
+    {
+        return y.Popularity.CompareTo(x.Popularity);
+    }
+    private int CompareByStar(UICellSampleData x, UICellSampleData y)
+    {
+        return y.Star.CompareTo(x.Star);
+    }
     protected override void Start()
     {
+        
+        instance = this;
         base.Start();
         LoadData();
     }
 
 
 }
-
-/*using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-namespace UI
-{
-    public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampleData>
-    {
-        private string csvFilePath= "Assets/Resources/Subject.csv";
-        private void LoadData()
-        {
-            tableData = new List<UICellSampleData>();
-            List<Dictionary<string, object>> csvData = CSVReader.Read("Subject");
-            if (csvData.Count > 0)
-            {
-                for(int i = 0; i < csvData.Count; i++)
-                {
-                    
-                    UICellSampleData data = new UICellSampleData
-                       {
-                            Number = int.Parse(csvData[i]["Number"].ToString()),
-                            ClassMGE = csvData[i]["Class"].ToString(),
-                            ClassName_KR = csvData[i]["Korea_Name"].ToString(),
-                            ClassName_EN = csvData[i]["English_Name"].ToString(),
-                            Popularity = int.Parse(csvData[i]["Popularity"].ToString()),
-                            Schedule = csvData[i]["Schedule"].ToString(),
-                            Credit = int.Parse(csvData[i]["Credit"].ToString()),
-                            Star = float.Parse(csvData[i]["Star"].ToString())
-                        };
-                        tableData.Add(data);
-                    }
-                }
-            InitializeTableView();
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            LoadData();
-        }
-        public void OnPressCell(UIRecycleviewsample cell)
-        {
-            Debug.Log("Cell click");
-            Debug.Log(tableData[cell.Index].ClassName_KR);
-        }
-    }
-
-}*/

@@ -13,5 +13,8 @@ public class ChangeClass : MonoBehaviour
     public Image Star;
     public Image ColorChange;
 
-
+    private void Awake()
+    {
+        instance = this;   
+    }
 }

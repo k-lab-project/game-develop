@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 namespace UI
 {
+    [System.Serializable]
     public class UICellSampleData
     {
         public int Number;
@@ -73,7 +74,6 @@ namespace UI
         public void onClickButton()
         {
 
-            //SugangBasketManager.instance.SubjectManager.Add(m_GiveData);
             SugangBasketManager.instance.AddManager(m_GiveData);
 
             
