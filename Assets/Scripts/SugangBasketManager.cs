@@ -26,48 +26,116 @@ public class SugangBasketManager : MonoBehaviour
     public Transform classesTransform;
     public void AddManager(UI.UIRecycleviewsample.UIGiveData m_GiveDataclass)
     {
-    /*    string checkfirstday = SubjectManager[i].Schedule.Substring(0, 1);
-        string checksecondday = SubjectManager[i].Schedule.Substring(13, 1);
-        int checkfirstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
-        int checkfirstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
-        int checkseconddate1 = int.Parse(SubjectManager[i].Schedule.Substring(15, 4));
-        int checkseconddate2 = int.Parse(SubjectManager[i].Schedule.Substring(20, 4));
+        if (!CheckDuplicate(m_GiveDataclass.GiveSchedule))
+        {
+            Debug.Log("시간표 중복!");
+        }
+        else
+        {
+
+            SubjectManager.Add(new Subject()
+            {
+                Number = m_GiveDataclass.GiveNumber,
+                ClassMGE = m_GiveDataclass.GiveClassMGE,
+                ClassName_KR = m_GiveDataclass.GiveClassName_KR,
+                ClassName_EN = m_GiveDataclass.GiveClassName_EN,
+                Schedule = m_GiveDataclass.GiveSchedule,
+                Popularity = m_GiveDataclass.GivePopularity,
+                Credit = m_GiveDataclass.GiveCredit,
+                Star = m_GiveDataclass.GiveStar,
+                Professor = m_GiveDataclass.GiveProfessor
+            });
+            DisplayClass();
+
+        }
+    }
+    private bool CheckDuplicate(string checkSchedule)
+    {//하루 넣어야함
+        string checkfirstday = checkSchedule.Substring(0, 1);
+        string checksecondday = checkSchedule.Substring(13, 1);
+        int checkfirstdate1 = int.Parse(checkSchedule.Substring(2, 4));
+        int checkfirstdate2 = int.Parse(checkSchedule.Substring(7, 4));
+        int checkseconddate1 = int.Parse(checkSchedule.Substring(15, 4));
+        int checkseconddate2 = int.Parse(checkSchedule.Substring(20, 4));
         for (int i = 0; i < SubjectManager.Count; i++)
         {
-            Debug.Log(i + "번째 실행중");
-            //Debug.Log("월 1000-1100,수 1000-1100");
             if (SubjectManager[i].Schedule.Length > 20)
             {
-                //이틀 이상 있는 날
-                string firstday= SubjectManager[i].Schedule.Substring(0,1);
-                string secondday= SubjectManager[i].Schedule.Substring(13,1);
-                int firstdate1= int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
-                int firstdate2= int.Parse(SubjectManager[i].Schedule.Substring(7, 4)); 
-                int seconddate1=int.Parse(SubjectManager[i].Schedule.Substring(15, 4)); 
-                int seconddate2= int.Parse(SubjectManager[i].Schedule.Substring(20, 4));
-                Debug.Log(firstday + firstdate1 + firstdate2);
-                Debug.Log(secondday + seconddate1 + seconddate2);
+                string firstday = SubjectManager[i].Schedule.Substring(0, 1);
+                string secondday = SubjectManager[i].Schedule.Substring(13, 1);
+                int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
+                int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
+                int seconddate1 = int.Parse(SubjectManager[i].Schedule.Substring(15, 4));
+                int seconddate2 = int.Parse(SubjectManager[i].Schedule.Substring(20, 4));
+                if (firstday == checkfirstday)
+                {
+                    
+                    if (checkfirstdate1 >= firstdate2 && checkfirstdate2 >= firstdate2)
+                    {
+
+                    }
+                    else if (checkfirstdate1<= firstdate1 && checkfirstdate2 <= firstdate1)
+                    {
+
+                    }
+                    else
+                    {
+
+                        return false;
+                    }
+                }
+                if (firstday == checksecondday)
+                {
+                    if (checkfirstdate1 >= seconddate2 && checkfirstdate2 >= seconddate2)
+                    {
+
+                    }
+                    else if (checkfirstdate1 <= seconddate1 && checkfirstdate2 <= seconddate1)
+                    {
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if (secondday == checkfirstday)
+                {
+                    if (checkseconddate1 >= firstdate2 && checkseconddate2 >= firstdate2)
+                    {
+
+                    }
+                    else if (checkseconddate1 <= firstdate1 && checkseconddate2 <= firstdate1)
+                    {
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if (secondday == checksecondday)
+                {
+                    if (checkseconddate1 >= seconddate2 && checkseconddate2 >= seconddate2)
+                    {
+
+                    }
+                    else if (checkseconddate1 <= seconddate1 && checkseconddate2 <= seconddate1)
+                    {
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
             else
-            {
-                //하루만 있는 날(이건 아직 엑셀 파일에 없어서 못하겠음)
-            }
-        }*/
-        //SubjectManager.Insert(index,subject);
-        SubjectManager.Add(new Subject()
-        {
-            Number = m_GiveDataclass.GiveNumber,
-            ClassMGE = m_GiveDataclass.GiveClassMGE,
-            ClassName_KR = m_GiveDataclass.GiveClassName_KR,
-            ClassName_EN = m_GiveDataclass.GiveClassName_EN,
-            Schedule = m_GiveDataclass.GiveSchedule,
-            Popularity = m_GiveDataclass.GivePopularity,
-            Credit = m_GiveDataclass.GiveCredit,
-            Star = m_GiveDataclass.GiveStar,
-            Professor = m_GiveDataclass.GiveProfessor
-        });
-        DisplayClass();
+            {//하나짜리
 
+            }
+        }
+        return true;
     }
     private void DisplayClass()
     {
@@ -105,13 +173,20 @@ public class SugangBasketManager : MonoBehaviour
                 RectTransform rectTransform1 = newOne.GetComponent<RectTransform>();
                 rectTransform1.anchoredPosition = new Vector3(x1, y1, 0);
                 rectTransform1.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, firstdistance);
-                //rectTransform1.sizeDelta = new Vector2(rectTransform1.sizeDelta.x, y1);
+                newOne.GetComponent<ChangeClass>().SubjectName.text = SubjectManager[i].ClassName_KR;
+                newOne.GetComponent<ChangeClass>().Popularity.text ="인기  "+ SubjectManager[i].Popularity.ToString();
+                CheckStarImage(newOne.GetComponent<ChangeClass>().Star, SubjectManager[i].Star);
+                DecideBackgroundImage(i, firstdistance, newOne.GetComponent<ChangeClass>().ColorChange);
 
                 GameObject newTwo = Instantiate(prefab);
                 newTwo.transform.SetParent(GameObject.Find("Classes").transform, false);
                 RectTransform rectTransform2 = newTwo.GetComponent<RectTransform>();
                 rectTransform2.anchoredPosition = new Vector3(x2, y2, 0);
                 rectTransform2.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, seconddistance);
+                newTwo.GetComponent<ChangeClass>().SubjectName.text = SubjectManager[i].ClassName_KR;
+                newTwo.GetComponent<ChangeClass>().Popularity.text = "";
+                newTwo.GetComponent<ChangeClass>().Star.enabled = false;
+                DecideBackgroundImage(i, firstdistance, newTwo.GetComponent<ChangeClass>().ColorChange);
             }
             else
             {
@@ -151,15 +226,52 @@ public class SugangBasketManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    private void Awake()
+
+    private void DecideBackgroundImage(int num,int distance, Image colorimage)
     {
-        if (instance == null)
+        int decide_num = num % 4;
+        switch (decide_num)
         {
-            instance = this;
-        }
-        else
-        {
-            Debug.LogError("Duplicated SugangBasketManager", gameObject);
+            case 0:
+                if (distance > 50)
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/pink_long");
+                }
+                else
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/pink_short");
+                }
+                break;
+            case 1:
+                if (distance > 50)
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/blue_long");
+                }
+                else
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/blue_short");
+                }
+                break;
+            case 2:
+                if (distance > 50)
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/green_long");
+                }
+                else
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/green_short");
+                }
+                break;
+            case 3:
+                if (distance > 50)
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/purple_long");
+                }
+                else
+                {
+                    colorimage.sprite = Resources.Load<Sprite>("Sprite/ClassDiffer/purple_short");
+                }
+                break;
         }
     }
     private void CheckStarImage(Image Star,float StarNum)
@@ -214,6 +326,17 @@ public class SugangBasketManager : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogError("Duplicated SugangBasketManager", gameObject);
         }
     }
 }

@@ -16,16 +16,27 @@ public class AddClassButton : MonoBehaviour
     [SerializeField] private GameObject Else;
     [SerializeField] private GameObject AddClassUI;
     [SerializeField] private GameObject TimeSchedule;
+    [SerializeField] private GameObject Xbutton;
     // Start is called before the first frame update
-    public void OnMouseClick()
+    public void OnMouseAdcClassButClick()
     {
         AddClassBut.SetActive(false);
         Else.SetActive(false);
         AddClassUI.SetActive(true);
+        Xbutton.SetActive(true);
         StartCoroutine(MoveUIDownToUpForT(TimeSchedule, TimeScheduleStart, TimeScheduleEnd));
         StartCoroutine(MoveUIDownToUpForA(AddClassUI,AddClassUIStart,AddClassUIEnd));
     }
 
+    public void OnMouseXButtonClick()
+    {
+        AddClassBut.SetActive(true);
+        Else.SetActive(true);
+        AddClassUI.SetActive(false);
+        Xbutton.SetActive(false);
+        StartCoroutine(MoveUIDownToUpForT(TimeSchedule, TimeScheduleEnd, TimeScheduleStart));
+        StartCoroutine(MoveUIDownToUpForA(AddClassUI, AddClassUIEnd, AddClassUIStart));
+    }
     IEnumerator MoveUIDownToUpForT(GameObject obj, Vector3 Start, Vector3 End)
     {
         RectTransform rectTransform = obj.GetComponent<RectTransform>();
