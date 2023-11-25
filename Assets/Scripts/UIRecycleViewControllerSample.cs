@@ -6,15 +6,15 @@ using System.IO;
 using UI;
 using System.Text; // 인코딩을 사용하기 위해 추가
 
+
 public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampleData>
 {
     public static UIRecycleViewControllerSample instance;
 
     private string csvFilePath = "Assets/Resources/Subject.csv";
-
+    
     public void LoadData()
     {
-        
         tableData = new List<UICellSampleData>();
 
         // UTF-8로 인코딩된 파일을 읽기 위해 Encoding 설정
@@ -56,8 +56,21 @@ public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampl
                         
                         if (ArrangeClassButton.instance.SortByCredit == 1 || ArrangeClassButton.instance.SortByCredit == data.Credit)
                         {
-                        
-                            tableData.Add(data);
+                            if (ArrangeClassButton.instance.SortByRegister == "BASKET")
+                            {
+                                for (int i = 0; i < SugangBasketManager.instance.FailedSubjectManager.Count; i++)
+                                {
+                                    if (data.ClassName_KR == SugangBasketManager.instance.FailedSubjectManager[i].ClassName_KR)
+                                    {
+                                        tableData.Add(data);
+                                        break;
+                                    }
+
+                                }
+                            }
+                            else {
+                                tableData.Add(data);
+                            }
 
                         }
                     }
@@ -76,7 +89,8 @@ public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampl
         {
             tableData.Sort(CompareByPopularity);
         }
-        
+
+
 
         InitializeTableView();
     }

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using System.Collections;
+
 namespace UI
 {
     [System.Serializable]
@@ -40,12 +43,17 @@ namespace UI
         [SerializeField] private Image Star;
         [SerializeField] private int Credit;
         [SerializeField] private int Number;
-        // Update is called once per frame
+        [SerializeField] private GameObject RegisterButton;
+        [SerializeField] private GameObject NotRegisterButton;
+        [SerializeField] private GameObject ClosedRegisterButton;
+        [SerializeField] private GameObject RegisterComplete;
+
         UIGiveData m_GiveData = new UIGiveData();
 
+        private int realtime = 0;
+        private bool realtimefirst = false;
         public override void UpdateContent(UICellSampleData itemData)
         {
-
             Number = itemData.Number;
             Credit = itemData.Credit;
             className.text = itemData.ClassName_KR;
@@ -58,7 +66,105 @@ namespace UI
             Professor.text = itemData.Professor;
             CheckStarImage(itemData.Star);
 
+            if (RealSugangSystem.instance.TimerFinished)
             {
+                if (!realtimefirst)
+                {
+                    realtimefirst = true;
+                    StartRealTIme();
+                }
+                if (SugangBasketManager.instance.SubjectManager.Count == 0)
+                {
+                    RegisterButton.SetActive(true);
+                    NotRegisterButton.SetActive(false);
+                    StartCoroutine(SubjectTimer(itemData));
+                }
+                else
+                {
+                    for (int i = 0; i < SugangBasketManager.instance.SubjectManager.Count; i++)
+                    {
+                        if (itemData.ClassName_KR == SugangBasketManager.instance.SubjectManager[i].ClassName_KR)
+                        {
+                            RegisterButton.SetActive(false);
+                            NotRegisterButton.SetActive(false);
+                            RegisterComplete.SetActive(true);
+                            ClosedRegisterButton.SetActive(false);
+                            break;
+                        }
+                        else
+                        {
+                            RegisterButton.SetActive(true);
+                            NotRegisterButton.SetActive(false);
+                            RegisterComplete.SetActive(false);
+                            StartCoroutine(SubjectTimer(itemData));
+
+                            
+                        }
+                    }
+                   
+                }
+                float popular = itemData.Popularity;
+                float time = 20f - popular / 100f * 19f;
+                time = time - realtime;
+                if (time > 0)
+                {
+                    ClosedRegisterButton.SetActive(false);
+                }
+            }
+            else if (!RealSugangSystem.instance.RealSugangStarted)
+            {
+                if (SugangBasketManager.instance.SubjectManager.Count == 0)
+                {
+                    RegisterButton.SetActive(true);
+                    NotRegisterButton.SetActive(false);
+                }
+                else
+                {
+                    for (int i = 0; i < SugangBasketManager.instance.SubjectManager.Count; i++)
+                    {
+                        if (itemData.ClassName_KR == SugangBasketManager.instance.SubjectManager[i].ClassName_KR)
+                        {
+                            RegisterButton.SetActive(false);
+                            NotRegisterButton.SetActive(true);
+                            break;
+                        }
+                        else
+                        {
+                            RegisterButton.SetActive(true);
+                            NotRegisterButton.SetActive(false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (SugangBasketManager.instance.SubjectManager.Count == 0)
+                {
+                    RegisterButton.SetActive(false);
+                    NotRegisterButton.SetActive(true);
+                }
+                else
+                {
+                    for (int i = 0; i < SugangBasketManager.instance.SubjectManager.Count; i++)
+                    {
+                        if (itemData.ClassName_KR == SugangBasketManager.instance.SubjectManager[i].ClassName_KR)
+                        {
+                            RegisterButton.SetActive(false);
+                            NotRegisterButton.SetActive(false);
+                            RegisterComplete.SetActive(true);
+
+                            break;
+                        }
+                        else
+                        {
+                            RegisterButton.SetActive(false);
+                            NotRegisterButton.SetActive(true);
+                            RegisterComplete.SetActive(false);
+                        }
+                    }
+                }
+            }
+            
                 m_GiveData.GiveNumber = itemData.Number;
                 m_GiveData.GiveClassMGE = itemData.ClassMGE;
                 m_GiveData.GiveClassName_KR = itemData.ClassName_KR;
@@ -68,15 +174,54 @@ namespace UI
                 m_GiveData.GiveCredit = itemData.Credit;
                 m_GiveData.GiveStar = itemData.Star;
                 m_GiveData.GiveProfessor = itemData.Professor;
-            }
+            
 
+        }
+        private void StartRealTIme()
+        {
+            if(realtime<30)
+                StartCoroutine(GetRealTIme());
+            else
+            {
+                
+            }
+        }
+        IEnumerator GetRealTIme()
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            {
+                
+                realtime++;
+                StartRealTIme();
+            }
+        }
+        IEnumerator SubjectTimer(UICellSampleData data)
+        {
+            float popular = data.Popularity;
+            float time = 20f- popular / 100f * 19f;
+            time = time - realtime;
+            if (time < 0)
+                time = 0.01f;
+            yield return new WaitForSecondsRealtime(time);
+            {
+                if (RegisterComplete.activeSelf == true || ClosedRegisterButton.activeSelf == true)
+                {
+                    ;
+                }
+                else
+                {
+                    RegisterButton.SetActive(false);
+                    ClosedRegisterButton.SetActive(true);
+                
+                }
+                    
+            }
         }
         public void onClickButton()
         {
-
+                
             SugangBasketManager.instance.AddManager(m_GiveData);
 
-            
         }
         private void CheckStarImage(float StarNum)
         {

@@ -12,7 +12,9 @@ public class ChangeClass : MonoBehaviour
     public TextMeshProUGUI Popularity;
     public Image Star;
     public Image ColorChange;
-
+    public GameObject TombImage;
+    public GameObject TombImageBackground;
+ 
     private void Awake()
     {
         instance = this;   

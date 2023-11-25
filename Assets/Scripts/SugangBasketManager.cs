@@ -18,21 +18,25 @@ public class SugangBasketManager : MonoBehaviour
         public int Credit;
         public float Star;
         public string Professor;
+        public GameObject OneSubject;
+        public GameObject TwoSubject;
     }
-
+    
+    
     [SerializeField] private GameObject prefab;
     public static SugangBasketManager instance;
     public List<Subject> SubjectManager;
+    public List<Subject> FailedSubjectManager;
     public Transform classesTransform;
     public void AddManager(UI.UIRecycleviewsample.UIGiveData m_GiveDataclass)
     {
         if (!CheckDuplicate(m_GiveDataclass.GiveSchedule))
         {
-            Debug.Log("시간표 중복!");
+            PopUpManager.instance.ShowMessageCannotApply();
         }
         else
         {
-
+            
             SubjectManager.Add(new Subject()
             {
                 Number = m_GiveDataclass.GiveNumber,
@@ -45,8 +49,44 @@ public class SugangBasketManager : MonoBehaviour
                 Star = m_GiveDataclass.GiveStar,
                 Professor = m_GiveDataclass.GiveProfessor
             });
+            UIRecycleViewControllerSample.instance.LoadData();
             DisplayClass();
 
+        }
+    }
+    public void RemoveSubject(string name)
+    {
+        for(int i = 0; i < SubjectManager.Count; i++)
+        {
+            if (SubjectManager[i].ClassName_KR == name)
+            {
+                SubjectManager.RemoveAt(i);
+                break;
+            }
+        }
+            
+    }
+    public void FailedSubject(string name)
+    {
+        for (int i = 0; i < SubjectManager.Count; i++)
+        {
+            if (SubjectManager[i].ClassName_KR == name)
+            {
+                FailedSubjectManager.Add(new Subject()
+                {
+                    Number = SubjectManager[i].Number,
+                    ClassMGE = SubjectManager[i].ClassMGE,
+                    ClassName_KR = SubjectManager[i].ClassName_KR,
+                    ClassName_EN = SubjectManager[i].ClassName_EN,
+                    Schedule = SubjectManager[i].Schedule,
+                    Popularity = SubjectManager[i].Popularity,
+                    Credit = SubjectManager[i].Credit,
+                    Star = SubjectManager[i].Star,
+                    Professor = SubjectManager[i].Professor
+                });
+                SubjectManager.RemoveAt(i);
+                break;
+            }
         }
     }
     private bool CheckDuplicate(string checkSchedule)
@@ -137,7 +177,7 @@ public class SugangBasketManager : MonoBehaviour
         }
         return true;
     }
-    private void DisplayClass()
+    public void DisplayClass()
     {
         //위치 계싼
         RemoveAllChildrenFromClasses();
@@ -177,6 +217,9 @@ public class SugangBasketManager : MonoBehaviour
                 newOne.GetComponent<ChangeClass>().Popularity.text ="인기  "+ SubjectManager[i].Popularity.ToString();
                 CheckStarImage(newOne.GetComponent<ChangeClass>().Star, SubjectManager[i].Star);
                 DecideBackgroundImage(i, firstdistance, newOne.GetComponent<ChangeClass>().ColorChange);
+                newOne.name = i.ToString()+"1";
+
+                SubjectManager[i].OneSubject = newOne;
 
                 GameObject newTwo = Instantiate(prefab);
                 newTwo.transform.SetParent(GameObject.Find("Classes").transform, false);
@@ -187,6 +230,8 @@ public class SugangBasketManager : MonoBehaviour
                 newTwo.GetComponent<ChangeClass>().Popularity.text = "";
                 newTwo.GetComponent<ChangeClass>().Star.enabled = false;
                 DecideBackgroundImage(i, firstdistance, newTwo.GetComponent<ChangeClass>().ColorChange);
+                SubjectManager[i].TwoSubject = newTwo;
+                newTwo.name = i.ToString()+"2";
             }
             else
             {
@@ -219,6 +264,7 @@ public class SugangBasketManager : MonoBehaviour
         }
         return x1;
     }
+    
     private void RemoveAllChildrenFromClasses()
     {
         foreach (Transform child in classesTransform)

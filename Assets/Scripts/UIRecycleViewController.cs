@@ -42,7 +42,7 @@ namespace UI
                 {
                     
                     float cellHeight = GetCellHeightAtIndex(i);
-                    Debug.Log(cellHeight);
+                    
                     Vector2 cellBottom = cellTop + new Vector2(0.0f, -cellHeight);
                     if ((cellTop.y <= visibleRect.y && cellTop.y >= visibleRect.y - visibleRect.height)
                         || (cellBottom.y <= visibleRect.y && cellBottom.y >= visibleRect.y - visibleRect.height)){
