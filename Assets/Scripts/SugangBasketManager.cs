@@ -90,89 +90,202 @@ public class SugangBasketManager : MonoBehaviour
         }
     }
     private bool CheckDuplicate(string checkSchedule)
-    {//하루 넣어야함
-        string checkfirstday = checkSchedule.Substring(0, 1);
-        string checksecondday = checkSchedule.Substring(13, 1);
-        int checkfirstdate1 = int.Parse(checkSchedule.Substring(2, 4));
-        int checkfirstdate2 = int.Parse(checkSchedule.Substring(7, 4));
-        int checkseconddate1 = int.Parse(checkSchedule.Substring(15, 4));
-        int checkseconddate2 = int.Parse(checkSchedule.Substring(20, 4));
-        for (int i = 0; i < SubjectManager.Count; i++)
+    {
+        if (checkSchedule.Length < 14)
         {
-            if (SubjectManager[i].Schedule.Length > 20)
+            string checkfirstday = checkSchedule.Substring(0, 1);
+            int checkfirstdate1 = int.Parse(checkSchedule.Substring(2, 4));
+            int checkfirstdate2 = int.Parse(checkSchedule.Substring(7, 4));
+
+            for (int i = 0; i < SubjectManager.Count; i++)
             {
-                string firstday = SubjectManager[i].Schedule.Substring(0, 1);
-                string secondday = SubjectManager[i].Schedule.Substring(13, 1);
-                int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
-                int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
-                int seconddate1 = int.Parse(SubjectManager[i].Schedule.Substring(15, 4));
-                int seconddate2 = int.Parse(SubjectManager[i].Schedule.Substring(20, 4));
-                if (firstday == checkfirstday)
+                if (SubjectManager[i].Schedule.Length > 20)
                 {
-                    
-                    if (checkfirstdate1 >= firstdate2 && checkfirstdate2 >= firstdate2)
+                    string firstday = SubjectManager[i].Schedule.Substring(0, 1);
+                    string secondday = SubjectManager[i].Schedule.Substring(13, 1);
+                    int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
+                    int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
+                    int seconddate1 = int.Parse(SubjectManager[i].Schedule.Substring(15, 4));
+                    int seconddate2 = int.Parse(SubjectManager[i].Schedule.Substring(20, 4));
+                    if (firstday == checkfirstday)
                     {
 
+                        if (checkfirstdate1 >= firstdate2 && checkfirstdate2 >= firstdate2)
+                        {
+
+                        }
+                        else if (checkfirstdate1 <= firstdate1 && checkfirstdate2 <= firstdate1)
+                        {
+
+                        }
+                        else
+                        {
+
+                            return false;
+                        }
                     }
-                    else if (checkfirstdate1<= firstdate1 && checkfirstdate2 <= firstdate1)
+                    if (secondday == checkfirstday)
                     {
+                        if (checkfirstdate1 >= seconddate2 && checkfirstdate2 >= seconddate2)
+                        {
 
-                    }
-                    else
-                    {
+                        }
+                        else if (checkfirstdate1 <= seconddate1 && checkfirstdate2 <= seconddate1)
+                        {
 
-                        return false;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
-                if (firstday == checksecondday)
-                {
-                    if (checkfirstdate1 >= seconddate2 && checkfirstdate2 >= seconddate2)
+                else
+                {//하나짜리
+                    string firstday = SubjectManager[i].Schedule.Substring(0, 1);
+                    int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
+                    int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
+                    if (firstday == checkfirstday)
                     {
 
-                    }
-                    else if (checkfirstdate1 <= seconddate1 && checkfirstdate2 <= seconddate1)
-                    {
+                        if (checkfirstdate1 >= firstdate2 && checkfirstdate2 >= firstdate2)
+                        {
 
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                if (secondday == checkfirstday)
-                {
-                    if (checkseconddate1 >= firstdate2 && checkseconddate2 >= firstdate2)
-                    {
+                        }
+                        else if (checkfirstdate1 <= firstdate1 && checkfirstdate2 <= firstdate1)
+                        {
 
-                    }
-                    else if (checkseconddate1 <= firstdate1 && checkseconddate2 <= firstdate1)
-                    {
+                        }
+                        else
+                        {
 
+                            return false;
+                        }
                     }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                if (secondday == checksecondday)
-                {
-                    if (checkseconddate1 >= seconddate2 && checkseconddate2 >= seconddate2)
-                    {
 
-                    }
-                    else if (checkseconddate1 <= seconddate1 && checkseconddate2 <= seconddate1)
-                    {
-
-                    }
-                    else
-                    {
-                        return false;
-                    }
                 }
             }
-            else
-            {//하나짜리
+        }
+        else
+        {
+            string checkfirstday = checkSchedule.Substring(0, 1);
+            string checksecondday = checkSchedule.Substring(13, 1);
+            int checkfirstdate1 = int.Parse(checkSchedule.Substring(2, 4));
+            int checkfirstdate2 = int.Parse(checkSchedule.Substring(7, 4));
+            int checkseconddate1 = int.Parse(checkSchedule.Substring(15, 4));
+            int checkseconddate2 = int.Parse(checkSchedule.Substring(20, 4));
+            for (int i = 0; i < SubjectManager.Count; i++)
+            {
+                if (SubjectManager[i].Schedule.Length > 20)
+                {
+                    string firstday = SubjectManager[i].Schedule.Substring(0, 1);
+                    string secondday = SubjectManager[i].Schedule.Substring(13, 1);
+                    int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
+                    int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
+                    int seconddate1 = int.Parse(SubjectManager[i].Schedule.Substring(15, 4));
+                    int seconddate2 = int.Parse(SubjectManager[i].Schedule.Substring(20, 4));
+                    if (firstday == checkfirstday)
+                    {
 
+                        if (checkfirstdate1 >= firstdate2 && checkfirstdate2 >= firstdate2)
+                        {
+
+                        }
+                        else if (checkfirstdate1 <= firstdate1 && checkfirstdate2 <= firstdate1)
+                        {
+
+                        }
+                        else
+                        {
+
+                            return false;
+                        }
+                    }
+                    if (firstday == checksecondday)
+                    {
+                        if (checkseconddate1 >= firstdate2 && checkseconddate2 >= firstdate2)
+                        {
+
+                        }
+                        else if (checkseconddate1 <= firstdate1 && checkseconddate2 <= firstdate1)
+                        {
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    if (secondday == checkfirstday)
+                    {
+                        if (checkfirstdate1 >= seconddate2 && checkfirstdate2 >= seconddate2)
+                        {
+
+                        }
+                        else if (checkfirstdate1 <= seconddate1 && checkfirstdate2 <= seconddate1)
+                        {
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    if (secondday == checksecondday)
+                    {
+                        if (checkseconddate1 >= seconddate2 && checkseconddate2 >= seconddate2)
+                        {
+
+                        }
+                        else if (checkseconddate1 <= seconddate1 && checkseconddate2 <= seconddate1)
+                        {
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {//하나짜리
+                    string firstday = SubjectManager[i].Schedule.Substring(0, 1);
+                    int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
+                    int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
+                    if (firstday == checkfirstday)
+                    {
+
+                        if (checkfirstdate1 >= firstdate2 && checkfirstdate2 >= firstdate2)
+                        {
+
+                        }
+                        else if (checkfirstdate1 <= firstdate1 && checkfirstdate2 <= firstdate1)
+                        {
+
+                        }
+                        else
+                        {
+
+                            return false;
+                        }
+                    }
+                    if (firstday == checksecondday)
+                    {
+                        if (checkseconddate1 >= firstdate2 && checkseconddate2 >= firstdate2)
+                        {
+
+                        }
+                        else if (checkseconddate1 <= firstdate1 && checkseconddate2 <= firstdate1)
+                        {
+
+                        }
+                        else
+                        {
+
+                            return false;
+                        }
+                    }
+                }
             }
         }
         return true;
@@ -235,7 +348,36 @@ public class SugangBasketManager : MonoBehaviour
             }
             else
             {
-                //하루만 있는 날(이건 아직 엑셀 파일에 없어서 못하겠음)
+                //하루 있는 날
+                float x1, y1;
+                
+                string firstday = SubjectManager[i].Schedule.Substring(0, 1);
+                int firstdate1 = int.Parse(SubjectManager[i].Schedule.Substring(2, 4));
+                int firstdate2 = int.Parse(SubjectManager[i].Schedule.Substring(7, 4));
+                int firstdistance = (firstdate2 - firstdate1) / 100 * 40;
+                if ((firstdate2 - firstdate1) % 100 != 0)
+                    firstdistance += 20;
+               
+                
+                x1 = checkxlocation(firstday);
+               
+                y1 = -firstdistance / 2 + ((firstdate1 - 1000) / 100 * (-40));
+              
+                if ((firstdate1 - 1000) % 100 != 0)
+                    y1 -= firstdistance / 2;
+             
+                GameObject newOne = Instantiate(prefab);
+                newOne.transform.SetParent(GameObject.Find("Classes").transform, false);
+                RectTransform rectTransform1 = newOne.GetComponent<RectTransform>();
+                rectTransform1.anchoredPosition = new Vector3(x1, y1, 0);
+                rectTransform1.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, firstdistance);
+                newOne.GetComponent<ChangeClass>().SubjectName.text = SubjectManager[i].ClassName_KR;
+                newOne.GetComponent<ChangeClass>().Popularity.text = "인기  " + SubjectManager[i].Popularity.ToString();
+                CheckStarImage(newOne.GetComponent<ChangeClass>().Star, SubjectManager[i].Star);
+                DecideBackgroundImage(i, firstdistance, newOne.GetComponent<ChangeClass>().ColorChange);
+                newOne.name = i.ToString() + "3";
+                SubjectManager[i].OneSubject = newOne;
+
             }
 
         }

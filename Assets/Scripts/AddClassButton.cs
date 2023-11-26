@@ -58,6 +58,7 @@ public class AddClassButton : MonoBehaviour
     }
     public void OnMouseAdcClassButClick()
     {
+        
         checkingdrag = true;
         AddClassUI.SetActive(true);
         AddClassBut.SetActive(false);

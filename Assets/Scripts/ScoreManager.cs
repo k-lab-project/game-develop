@@ -93,60 +93,114 @@ public class ScoreManager : MonoBehaviour
 
         for (int i = 0; i < SugangBasketManager.instance.SubjectManager.Count; i++)
         {
-            string[] days = new string[] {
+            if (SugangBasketManager.instance.SubjectManager[i].Schedule.Length < 15)
+            {
+                string[] days = new string[] {
+                SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(0, 1)
+                };
+
+                int[][] dates = new int[][] {
+                    new int[] {
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(2, 4)),
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(7, 4))
+                    }
+                };
+                for (int k = 0; k < 1; k++)
+                {
+                    int startDate = (dates[k][0] / 100 - 10) * 2 + (dates[k][0] % 100 != 0 ? 1 : 0);
+                    int endDate = (dates[k][1] / 100 - 10) * 2 + (dates[k][1] % 100 != 0 ? 1 : 0);
+                    switch (days[k])
+                    {
+                        case "월":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[0][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "화":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[1][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "수":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[2][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "목":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[3][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "금":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[4][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                    }
+                }
+            } 
+            else
+            {
+                string[] days = new string[] {
                 SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(0, 1),
                 SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(13, 1)
-            };
+                };
 
-            int[][] dates = new int[][] {
-            new int[] {
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(2, 4)),
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(7, 4))
-        },
-            new int[] {
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(15, 4)),
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(20, 4))
-        }
-            };
-
-            for (int k = 0; k < 2; k++)
-            {
-                int startDate = (dates[k][0] / 100 - 10)*2 + (dates[k][0] % 100 != 0 ? 1 : 0);
-                int endDate = (dates[k][1] / 100 - 10) * 2 + (dates[k][1] % 100 != 0 ? 1 : 0);
-                switch (days[k])
+                int[][] dates = new int[][] {
+                    new int[] {
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(2, 4)),
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(7, 4))
+                    },
+                    new int[] {
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(15, 4)),
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(20, 4))
+                    }
+                };
+                for (int k = 0; k < 2; k++)
                 {
-                    case "월":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[0][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "화":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[1][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "수":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[2][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "목":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[3][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "금":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[4][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
+                    int startDate = (dates[k][0] / 100 - 10) * 2 + (dates[k][0] % 100 != 0 ? 1 : 0);
+                    int endDate = (dates[k][1] / 100 - 10) * 2 + (dates[k][1] % 100 != 0 ? 1 : 0);
+                    switch (days[k])
+                    {
+                        case "월":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[0][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "화":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[1][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "수":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[2][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "목":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[3][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "금":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[4][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                    }
                 }
             }
+
 
         }
         for(int i = 0; i < 5; i++)
@@ -158,7 +212,7 @@ public class ScoreManager : MonoBehaviour
             int prevnum = 0;
             int startnum = 0;
             int endnum = 0;
-            for (int j = 0; j < 18; j++)
+            for (int j = 0; j < 20; j++)
             {
                 if (scheduleArrays[i][j] != 0)
                 {
@@ -283,6 +337,7 @@ public class ScoreManager : MonoBehaviour
                             Diagnoal_Monday.transform.SetParent(GameObject.Find("Diagnoal_Parent").transform, false);
                             RectTransform rectTransform1 = Diagnoal_Monday.GetComponent<RectTransform>();
                             rectTransform1.anchoredPosition = new Vector3(checkxlocation(i), -(endnum - startnum) * 10 + startnum * 20, 0);
+                            Debug.Log(endnum + " " + startnum + " ");
                             rectTransform1.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (endnum - startnum) * 20);
 
                         }
@@ -529,58 +584,111 @@ public class ScoreManager : MonoBehaviour
 
         for (int i = 0; i < SugangBasketManager.instance.SubjectManager.Count; i++)
         {
-            string[] days = new string[] {
+            if (SugangBasketManager.instance.SubjectManager[i].Schedule.Length < 15)
+            {
+                string[] days = new string[] {
+                SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(0, 1)
+                };
+
+                int[][] dates = new int[][] {
+                    new int[] {
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(2, 4)),
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(7, 4))
+                    }
+                };
+                for (int k = 0; k < 1; k++)
+                {
+                    int startDate = (dates[k][0] / 100 - 10) * 2 + (dates[k][0] % 100 != 0 ? 1 : 0);
+                    int endDate = (dates[k][1] / 100 - 10) * 2 + (dates[k][1] % 100 != 0 ? 1 : 0);
+                    switch (days[k])
+                    {
+                        case "월":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[0][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "화":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[1][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "수":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[2][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "목":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[3][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "금":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[4][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                string[] days = new string[] {
                 SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(0, 1),
                 SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(13, 1)
-            };
+                };
 
-            int[][] dates = new int[][] {
-            new int[] {
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(2, 4)),
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(7, 4))
-        },
-            new int[] {
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(15, 4)),
-                int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(20, 4))
-        }
-            };
-
-            for (int k = 0; k < 2; k++)
-            {
-                int startDate = (dates[k][0] / 100 - 10) * 2 + (dates[k][0] % 100 != 0 ? 1 : 0);
-                int endDate = (dates[k][1] / 100 - 10) * 2 + (dates[k][1] % 100 != 0 ? 1 : 0);
-                switch (days[k])
+                int[][] dates = new int[][] {
+                    new int[] {
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(2, 4)),
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(7, 4))
+                    },
+                    new int[] {
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(15, 4)),
+                        int.Parse(SugangBasketManager.instance.SubjectManager[i].Schedule.Substring(20, 4))
+                    }
+                };
+                for (int k = 0; k < 2; k++)
                 {
-                    case "월":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[0][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "화":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[1][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "수":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[2][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "목":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[3][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
-                    case "금":
-                        for (int j = startDate; j < endDate; j++)
-                        {
-                            scheduleArrays[4][j] = SugangBasketManager.instance.SubjectManager[i].Number;
-                        }
-                        break;
+                    int startDate = (dates[k][0] / 100 - 10) * 2 + (dates[k][0] % 100 != 0 ? 1 : 0);
+                    int endDate = (dates[k][1] / 100 - 10) * 2 + (dates[k][1] % 100 != 0 ? 1 : 0);
+                    switch (days[k])
+                    {
+                        case "월":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[0][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "화":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[1][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "수":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[2][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "목":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[3][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                        case "금":
+                            for (int j = startDate; j < endDate; j++)
+                            {
+                                scheduleArrays[4][j] = SugangBasketManager.instance.SubjectManager[i].Number;
+                            }
+                            break;
+                    }
                 }
             }
 

@@ -57,12 +57,25 @@ namespace UI
             Number = itemData.Number;
             Credit = itemData.Credit;
             className.text = itemData.ClassName_KR;
-            int timea = 1000 + (int.Parse(itemData.Schedule_Date.Substring(0, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(0, 2)) - 1) % 2 * 30;
-            int timeb = 1000 + (int.Parse(itemData.Schedule_Date.Substring(2, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(2, 2)) - 1) % 2 * 30;
-            int timec = 1000 + (int.Parse(itemData.Schedule_Date.Substring(4, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(4, 2)) - 1) % 2 * 30;
-            int timed = 1000 + (int.Parse(itemData.Schedule_Date.Substring(6, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(6, 2)) - 1) % 2 * 30;
-            Schedule.text = itemData.Schedule_Day.Substring(0, 1) + " " + timea + "-" + timeb + ", " + itemData.Schedule_Day.Substring(1, 1) + " " + timec + "-" + timed;
-            Popularity.text ="인기도     "+ itemData.Popularity.ToString();
+            int timea, timeb, timec, timed;
+            if (itemData.Schedule_Date.Length < 5)
+            {
+                timea = 1000 + (int.Parse(itemData.Schedule_Date.Substring(0, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(0, 2)) - 1) % 2 * 30;
+                timeb = 1000 + (int.Parse(itemData.Schedule_Date.Substring(2, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(2, 2)) - 1) % 2 * 30;
+                Schedule.text = itemData.Schedule_Day.Substring(0, 1) + " " + timea + "-" + timeb;
+                m_GiveData.GiveSchedule = itemData.Schedule_Day.Substring(0, 1) + " " + timea + "-" + timeb;
+            }
+            else
+            {
+                timea = 1000 + (int.Parse(itemData.Schedule_Date.Substring(0, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(0, 2)) - 1) % 2 * 30;
+                timeb = 1000 + (int.Parse(itemData.Schedule_Date.Substring(2, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(2, 2)) - 1) % 2 * 30;
+                timec = 1000 + (int.Parse(itemData.Schedule_Date.Substring(4, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(4, 2)) - 1) % 2 * 30;
+                timed = 1000 + (int.Parse(itemData.Schedule_Date.Substring(6, 2)) - 1) / 2 * 100 + (int.Parse(itemData.Schedule_Date.Substring(6, 2)) - 1) % 2 * 30;
+                Schedule.text = itemData.Schedule_Day.Substring(0, 1) + " " + timea + "-" + timeb + ", " + itemData.Schedule_Day.Substring(1, 1) + " " + timec + "-" + timed;
+                m_GiveData.GiveSchedule = itemData.Schedule_Day.Substring(0, 1) + " " + timea + "-" + timeb + ", " + itemData.Schedule_Day.Substring(1, 1) + " " + timec + "-" + timed;
+            }
+
+            Popularity.text = "인기도     " + itemData.Popularity.ToString();
             Professor.text = itemData.Professor;
             CheckStarImage(itemData.Star);
 
@@ -98,10 +111,10 @@ namespace UI
                             RegisterComplete.SetActive(false);
                             StartCoroutine(SubjectTimer(itemData));
 
-                            
+
                         }
                     }
-                   
+
                 }
                 float popular = itemData.Popularity;
                 float time = 20f - popular / 100f * 19f;
@@ -164,17 +177,18 @@ namespace UI
                     }
                 }
             }
-            
-                m_GiveData.GiveNumber = itemData.Number;
-                m_GiveData.GiveClassMGE = itemData.ClassMGE;
-                m_GiveData.GiveClassName_KR = itemData.ClassName_KR;
-                m_GiveData.GiveClassName_EN = itemData.ClassName_EN;
-                m_GiveData.GiveSchedule = itemData.Schedule_Day.Substring(0, 1) + " " + timea + "-" + timeb + ", " + itemData.Schedule_Day.Substring(1, 1) + " " + timec + "-" + timed;
-                m_GiveData.GivePopularity = itemData.Popularity;
-                m_GiveData.GiveCredit = itemData.Credit;
-                m_GiveData.GiveStar = itemData.Star;
-                m_GiveData.GiveProfessor = itemData.Professor;
-            
+
+            m_GiveData.GiveNumber = itemData.Number;
+            m_GiveData.GiveClassMGE = itemData.ClassMGE;
+            m_GiveData.GiveClassName_KR = itemData.ClassName_KR;
+            m_GiveData.GiveClassName_EN = itemData.ClassName_EN;
+
+
+            m_GiveData.GivePopularity = itemData.Popularity;
+            m_GiveData.GiveCredit = itemData.Credit;
+            m_GiveData.GiveStar = itemData.Star;
+            m_GiveData.GiveProfessor = itemData.Professor;
+
 
         }
         private void StartRealTIme()

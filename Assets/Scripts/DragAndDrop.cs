@@ -20,28 +20,8 @@ public class DragAndDrop : MonoBehaviour
     private void Start()
     {
         RememberPosition = transform_cursor.position;
-        
-        
-        if (this.gameObject.name.Substring(1, 1) == "1")
-        {
-            Other = GameObject.Find(this.gameObject.name.Substring(0, 1) + "2");
-            changePos= gameObject.transform.position - Other.gameObject.transform.position;
-            
-        }
-        else if (this.gameObject.name.Substring(1, 1) == "2")
-        {
-            Other = GameObject.Find(this.gameObject.name.Substring(0, 1) + "1");
-            changePos = gameObject.transform.position - Other.gameObject.transform.position;
-            
-        }
-        else
-        {
-            othernone = true;
-        }
-    }
-    private void Update()
-    {
-        if (Other == null && !othernone)
+
+        if (this.gameObject.name.Length == 2)
         {
             if (this.gameObject.name.Substring(1, 1) == "1")
             {
@@ -55,11 +35,79 @@ public class DragAndDrop : MonoBehaviour
                 changePos = gameObject.transform.position - Other.gameObject.transform.position;
 
             }
+            else
+            {
+                othernone = true;
+            }
+        }
+        else
+        {
+            if (this.gameObject.name.Substring(2, 1) == "1")
+            {
+                Other = GameObject.Find(this.gameObject.name.Substring(0, 2) + "2");
+                changePos = gameObject.transform.position - Other.gameObject.transform.position;
+
+            }
+            else if (this.gameObject.name.Substring(2, 1) == "2")
+            {
+                Other = GameObject.Find(this.gameObject.name.Substring(0, 2) + "1");
+                changePos = gameObject.transform.position - Other.gameObject.transform.position;
+
+            }
+            else
+            {
+                othernone = true;
+            }
+        }
+    }
+    private void Update()
+    {
+        if (Other == null && !othernone)
+        {
+            if (this.gameObject.name.Length == 2)
+            {
+                if (this.gameObject.name.Substring(1, 1) == "1")
+                {
+                    Other = GameObject.Find(this.gameObject.name.Substring(0, 1) + "2");
+                    changePos = gameObject.transform.position - Other.gameObject.transform.position;
+
+                }
+                else if (this.gameObject.name.Substring(1, 1) == "2")
+                {
+                    Other = GameObject.Find(this.gameObject.name.Substring(0, 1) + "1");
+                    changePos = gameObject.transform.position - Other.gameObject.transform.position;
+
+                }
+                else
+                {
+                    othernone = true;
+                }
+            }
+            else
+            {
+                if (this.gameObject.name.Substring(2, 1) == "1")
+                {
+                    Other = GameObject.Find(this.gameObject.name.Substring(0, 2) + "2");
+                    changePos = gameObject.transform.position - Other.gameObject.transform.position;
+
+                }
+                else if (this.gameObject.name.Substring(2, 1) == "2")
+                {
+                    Other = GameObject.Find(this.gameObject.name.Substring(0, 2) + "1");
+                    changePos = gameObject.transform.position - Other.gameObject.transform.position;
+
+                }
+                else
+                {
+                    othernone = true;
+                }
+            }
         }
         if (Editable)
         {
             Update_MousePosition();
-            Other.GetComponent<DragAndDrop>().Other_Update_MousePosition();   
+            if(!othernone)
+                Other.GetComponent<DragAndDrop>().Other_Update_MousePosition();   
         }
 
     }
@@ -101,7 +149,8 @@ public class DragAndDrop : MonoBehaviour
         Editable = false;
         Vector2 mousePos = Input.mousePosition;
         StartCoroutine(MoveUIToRemember(this.gameObject, new Vector3(mousePos.x, mousePos.y, 0), RememberPosition));
-        Other.GetComponent<DragAndDrop>().OtherEndDrag();
+        if (!othernone)
+            Other.GetComponent<DragAndDrop>().OtherEndDrag();
         
     }
 

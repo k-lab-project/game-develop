@@ -14,7 +14,7 @@ public class ArrangeClassButton : MonoBehaviour
     [SerializeField] private GameObject Sort;
     [SerializeField] private GameObject Credit;
     [SerializeField] private GameObject Refresh;
-    public string SortByMajor="ALL";//ALL,M,GE
+    public string SortByMajor="ALL";//ALL,M,G,N
     public string SortByMiddle="STAR";//star,popularity,name
     public int SortByCredit=1;//all,2,3
     public string SortByRegister = "ALL";//All,BASKET
@@ -37,9 +37,14 @@ public class ArrangeClassButton : MonoBehaviour
         else if (SortByMajor == "M")
         {
             AreaText.text = "전공/영역   교양";
-            SortByMajor = "GE";
+            SortByMajor = "G";
         }
-        else if (SortByMajor == "GE")
+        else if (SortByMajor == "G")
+        {
+            AreaText.text = "전공/영역 네덜란드";
+            SortByMajor = "N";
+        }
+        else if (SortByMajor == "N")
         {
             AreaText.text = "전공/영역   전체";
             SortByMajor = "ALL";

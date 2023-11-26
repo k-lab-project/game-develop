@@ -11,7 +11,7 @@ public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampl
 {
     public static UIRecycleViewControllerSample instance;
 
-    private string csvFilePath = "Assets/Resources/Subject.csv";
+    private string csvFilePath = "Assets/Resources/InternetSubject.csv";
     
     public void LoadData()
     {
