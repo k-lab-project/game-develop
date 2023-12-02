@@ -157,6 +157,7 @@ public class EndBasketManager : MonoBehaviour
     }
     IEnumerator DisplayLossSubject()
     {
+        SoundManager.instance.tombCome();
         yield return new WaitForSecondsRealtime(1.5f);
         {
             if (LossSubjectObj.activeSelf==false){
@@ -169,6 +170,7 @@ public class EndBasketManager : MonoBehaviour
     }
     IEnumerator DisplayTotalScore()
     {
+        SoundManager.instance.scoreGoDown();
         yield return new WaitForSecondsRealtime(0.05f);
         {
 

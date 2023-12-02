@@ -8,13 +8,14 @@ using System.IO;
 
 public class GetSubject : MonoBehaviour
 {
-    private string url = "http://3.35.187.239:8090";
-    private List<string> parsedData = new List<string>();
 
-    void Start()
+    private string url = "http://3.35.187.239:8090";
+
+   public void getData()
     {
         StartCoroutine(GetDataFromServer());
     }
+    private List<string> parsedData = new List<string>();
 
     IEnumerator GetDataFromServer()
     {
@@ -32,7 +33,7 @@ public class GetSubject : MonoBehaviour
             {
                 // 서버에서 받아온 데이터
                 string responseData = www.downloadHandler.text;
-                Debug.Log("Received data: " + responseData);
+                //Debug.Log("Received data: " + responseData);
 
                 // 데이터를 파싱하고 저장
                 ParseAndSaveData(responseData);
@@ -59,11 +60,7 @@ public class GetSubject : MonoBehaviour
             parsedData.Add(parsedRecord);
         }
 
-        // 저장된 데이터 확인
-        foreach (var data in parsedData)
-        {
-            Debug.Log(data);
-        }
+        
     }
 
     void SaveToCSV(string fileName)
@@ -74,6 +71,6 @@ public class GetSubject : MonoBehaviour
         // 파일에 데이터 쓰기
         File.WriteAllLines(filePath, parsedData.ToArray());
 
-        Debug.Log($"Data saved to: {filePath}");
+        //Debug.Log($"Data saved to: {filePath}");
     }
 }

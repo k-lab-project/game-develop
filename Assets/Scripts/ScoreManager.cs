@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Text;
+using UnityEngine.Networking;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -17,19 +19,36 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI TotalScore;
     [SerializeField] private TextMeshProUGUI FinalTotalScore;
-    
+
+    [SerializeField] private GameObject createCharacterCanvas;
     [SerializeField] private GameObject Content;
     [SerializeField] private GameObject Pros_Prefab;
     [SerializeField] private GameObject Cons_Prefab;
     [SerializeField] private GameObject Diagnoal;
     [SerializeField] private Transform ConsProsTransform;
     [SerializeField] private Transform DiagnoalTransform;
+    [System.Serializable]
+    public class UserData
+    {
+        public int userId;
+        public int semester;
+        public string nickName;
+        public string gender;
+        public float memorization;
+        public float concentration;
+        public float patience;
+        public float creativity;
+        public float metacognition;
+        public float understanding;
+        public int[] subjectIds;
+    }
     public int creditcnt;
     public int RiskPopularity;
     private float cons;
     private float pros;
     private int Contentcnt;
     public float totalscore;
+    private string url = "http://3.35.187.239:8090";
     private void Awake()
     {
         instance = this;
@@ -48,6 +67,80 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    public void clickEndSugang()
+    {
+        if (creditcnt<12||creditcnt>21)
+        {
+            #if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                    Application.Quit();
+#endif
+
+        }
+        else
+        {
+            StartCoroutine(goWeekScene());
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+                    Application.Quit();
+#endif
+        //Scend¹Þ±â
+        }
+    }
+    private IEnumerator goWeekScene()
+    {
+        UserData userData = new UserData
+        {
+            userId = ButtonManager_start.instance.userId,
+            semester = 1,
+            nickName = ButtonManager_start.instance.characterName,
+            gender = ButtonManager_start.instance.characterGender,
+            memorization = totalscore / 6,
+            concentration = totalscore / 6,
+            patience = totalscore / 6,
+            creativity = totalscore / 6,
+            metacognition = totalscore / 6,
+            understanding = totalscore / 6,
+            subjectIds = new int[SugangBasketManager.instance.SubjectManager.Count]
+        };
+        for (int i = 0; i < SugangBasketManager.instance.SubjectManager.Count; i++)
+        {
+            userData.subjectIds[i] = SugangBasketManager.instance.SubjectManager[i].Number;
+        }
+
+        string jsonString = JsonUtility.ToJson(userData);
+
+        Dictionary<string, string> headers = new Dictionary<string, string>();
+        headers.Add("Content-Type", "application/json");
+
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonString);
+
+        using (UnityWebRequest www = new UnityWebRequest(url + "/create-character", "POST"))
+        {
+            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            www.downloadHandler = new DownloadHandlerBuffer();
+
+            foreach (var header in headers)
+            {
+                www.SetRequestHeader(header.Key, header.Value);
+            }
+
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error: " + www.error);
+            }
+            else
+            {
+                string responseData = www.downloadHandler.text;
+                
+
+            }
+        }
+    }
     private void TurnToFalse()
     {
         foreach (Transform child in ConsProsTransform)
@@ -472,26 +565,26 @@ public class ScoreManager : MonoBehaviour
         {
             if (cons < 100)
             {
-                FinalCons.text ="0"+ (-cons).ToString();
+                FinalCons.text ="0"+ (Mathf.CeilToInt(-cons)).ToString();
             }
             else
             {
-                FinalCons.text = (-cons).ToString();
+                FinalCons.text = (Mathf.CeilToInt(-cons)).ToString();
             }
             if (pros < 100)
             {
-                FinalPros.text = "0" + (pros).ToString();
+                FinalPros.text = "0" + (Mathf.CeilToInt(pros)).ToString();
             }
             else
             {
-                FinalPros.text = (pros).ToString();
+                FinalPros.text = (Mathf.CeilToInt(pros)).ToString();
             }
             
         }
         else
         {
-            Cons.text = (-cons).ToString();
-            Pros.text = (pros).ToString();
+            Cons.text = (Mathf.CeilToInt(-cons)).ToString();
+            Pros.text = (Mathf.CeilToInt(pros)).ToString();
         }
     }
     private float checkxlocation(int day)
