@@ -8,7 +8,7 @@ using System.IO;
 public class UIRecycleViewControllerSample : UIRecycleViewController<UICellSampleData>
 {
     public static UIRecycleViewControllerSample instance;
-    public TextAsset list;
+    
     private string csvFilePath = "InternetSubject";
 
     public void LoadData()

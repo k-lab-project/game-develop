@@ -96,7 +96,7 @@ public class ScoreManager : MonoBehaviour
             userId = ButtonManager_start.instance.userId,
             semester = 1,
             nickName = ButtonManager_start.instance.characterName,
-            gender = ButtonManager_start.instance.characterGender,
+            gender = ButtonManager_start.instance.characterGender.ToString(),
             memorization = totalscore / 6,
             concentration = totalscore / 6,
             patience = totalscore / 6,
@@ -430,7 +430,7 @@ public class ScoreManager : MonoBehaviour
                             Diagnoal_Monday.transform.SetParent(GameObject.Find("Diagnoal_Parent").transform, false);
                             RectTransform rectTransform1 = Diagnoal_Monday.GetComponent<RectTransform>();
                             rectTransform1.anchoredPosition = new Vector3(checkxlocation(i), -(endnum - startnum) * 10 + startnum * 20, 0);
-                            Debug.Log(endnum + " " + startnum + " ");
+                            
                             rectTransform1.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (endnum - startnum) * 20);
 
                         }
