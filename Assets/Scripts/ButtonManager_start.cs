@@ -176,7 +176,7 @@ public class ButtonManager_start : MonoBehaviour {
     }
     private IEnumerator deleteCharacter()
     {
-        using (UnityWebRequest www = new UnityWebRequest(url + userId, "DELETE"))
+        using (UnityWebRequest www = new UnityWebRequest(url +"/{"+ userId+"}", "DELETE"))
         {
 
             yield return www.SendWebRequest();
